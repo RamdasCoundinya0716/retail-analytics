@@ -38,7 +38,7 @@ The project is based on a denormalized dataset `master_customer_data` containing
 * `payments (payment_id, order_id, payment_method, payment_status)`
 
 ## ER Diagram
-<img width="593" height="671" alt="image" src="https://github.com/user-attachments/assets/b6d31695-8183-4367-8fde-ac7560da12ff" />
+<img width="580" height="688" alt="image" src="https://github.com/user-attachments/assets/85ab692c-dc29-46d5-9121-f17ed733215b" />
 
 
 ## 🧽 Data Cleaning Steps
