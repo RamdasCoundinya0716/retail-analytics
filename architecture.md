@@ -1,58 +1,31 @@
-flowchart TD
-    %% ========== SOURCES ==========
-    A[("Source\nmaster_customer_data\n(CSV/Parquet upload to DBFS)")]
-    
-    %% ========== INGESTION ==========
-    subgraph S1[Ingestion & Storage]
-      B[Ingestion Notebook (PySpark)\nread -> write Delta]
-      C[(Bronze Delta\nraw.master_customer_data)]
-      A --> B --> C
-    end
+erDiagram
+    customers {
+      INT customer_id PK
+      STRING region
+      DATE signup_date
+    }
 
-    %% ========== CLEANING ==========
-    subgraph S2[Cleaning & Standardization]
-      D[Cleaning Notebook (PySpark)\n• Standardize casing/columns\n• Fix typos: 'sucess'→'success'\n• Impute: signup_date=order_date\n• Impute: product_category='Unknown'\n• Impute: payment_status='Pending'\n• Cap product_price: ₹500–₹100,000\n• Filter invalid/null FKs]
-      E[(Silver Delta\nclean.master_customer_data)]
-      C --> D --> E
-    end
+    products {
+      INT product_id PK
+      STRING product_category
+      DECIMAL product_price
+    }
 
-    %% ========== MODELING ==========
-    subgraph S3[Snowflake Modeling (PySpark SQL)]
-      F[Modeling Notebook\nSplit & Normalize]
-      G[(customers)]
-      H[(orders)]
-      I[(products)]
-      J[(payments)]
-      E --> F
-      F --> G
-      F --> H
-      F --> I
-      F --> J
-    end
+    orders {
+      INT order_id PK
+      INT customer_id FK
+      DATE order_date
+      INT product_id FK
+      DECIMAL product_price
+    }
 
-    %% ========== GOLD / MARTS ==========
-    subgraph S4[Gold Layer / Marts]
-      K[(Gold Delta Marts)\nAOV by region • Monthly revenue\nTop categories • High-value customers\nPayment method split]
-      G --> K
-      H --> K
-      I --> K
-      J --> K
-    end
+    payments {
+      INT payment_id PK
+      INT order_id FK
+      STRING payment_method
+      STRING payment_status
+    }
 
-    %% ========== CONSUMPTION ==========
-    subgraph S5[Consumption]
-      L[Databricks SQL Warehouse]
-      M[Databricks SQL Dashboard\nKPIs: Total Revenue • Orders by Region • Payment Split • Category Leaderboard • HVC Heatmap]
-      K --> L --> M
-    end
-
-    %% ========== ORCHESTRATION & GOVERNANCE ==========
-    subgraph S6[Orchestration & Quality]
-      O[Databricks Jobs Scheduler\nRuns Notebooks on a cadence]
-      Q[Data Quality Checks\n(Python asserts/SQL tests)]
-    end
-    O -.-> B
-    O -.-> D
-    O -.-> F
-    D -.-> Q
-    F -.-> Q
+    customers ||--o{ orders : "places"
+    products  ||--o{ orders : "contained_in"
+    orders    ||--o{ payments : "settled_by"
