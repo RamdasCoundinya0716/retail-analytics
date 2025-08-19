@@ -37,6 +37,10 @@ The project is based on a denormalized dataset `master_customer_data` containing
 * `products (product_id, product_category, product_price)`
 * `payments (payment_id, order_id, payment_method, payment_status)`
 
+## ER Diagram
+<img width="2076" height="1086" alt="image" src="https://github.com/user-attachments/assets/59a9a2ab-ebe3-4641-8616-1f9b537babec" />
+
+
 ## 🧽 Data Cleaning Steps
 
 * Standardizing column formats and casing
