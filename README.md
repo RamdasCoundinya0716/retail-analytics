@@ -38,7 +38,7 @@ The project is based on a denormalized dataset `master_customer_data` containing
 * `payments (payment_id, order_id, payment_method, payment_status)`
 
 ## ER Diagram
-<img width="2076" height="1086" alt="mermaid-diagram-2025-08-19-164721" src="https://github.com/user-attachments/assets/2f261d75-8451-4cd3-9a48-9978c02ee612" />
+<img width="593" height="671" alt="image" src="https://github.com/user-attachments/assets/b6d31695-8183-4367-8fde-ac7560da12ff" />
 
 
 ## 🧽 Data Cleaning Steps
