@@ -132,6 +132,9 @@ ORDER BY month;
 * Category Revenue Leaderboard
 * High-Value Customer Heatmap
 
+## Dashboard (Streamlit)
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://retail-dashboard0716.streamlit.app/)
+
 ## 🔗 Author
 
 Ramdas Coudinya VK
